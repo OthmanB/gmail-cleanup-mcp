@@ -1,0 +1,75 @@
+# Example configuration for gmail-cleanup-mcp
+#
+# Copy this file to config/config.yaml and replace the absolute paths.
+#
+# IMPORTANT:
+# - Do NOT commit config/config.yaml.
+# - Do NOT commit secrets/.
+
+config_version: 1
+
+oauth:
+  # Absolute path to your downloaded OAuth client JSON.
+  client_file_path: "/absolute/path/to/gmail-cleanup-mcp/secrets/oauth_client.json"
+  # Absolute path where the token will be stored after bootstrap.
+  token_file_path: "/absolute/path/to/gmail-cleanup-mcp/secrets/token.json"
+  scopes:
+    - "https://www.googleapis.com/auth/gmail.modify"
+    - "https://www.googleapis.com/auth/gmail.send"
+
+gmail:
+  user_id: "me"
+
+paths:
+  # Only allow sender list files under these directories.
+  allowed_list_roots:
+    - "/absolute/path/to/gmail-cleanup-mcp/lists"
+
+cleanup:
+  mode: "trash"
+  default_query_suffix: "-in:trash -in:spam"
+  max_entries: 200
+  max_list_bytes: 200000
+  unsubscribe_probe_messages: 20
+  global_max_messages: 5000
+  per_entry_max_messages: 1000
+  sample_per_entry: 3
+  batch_size: 200
+  plan_ttl_seconds: 3600
+  rate_limit:
+    min_delay_ms: 150
+    max_retries: 6
+    backoff_base_ms: 400
+    backoff_max_ms: 8000
+
+output:
+  metadata_headers:
+    - "From"
+    - "Subject"
+    - "Date"
+    - "List-Unsubscribe"
+    - "List-Unsubscribe-Post"
+  snippet_max_length: 200
+  max_unsubscribe_links_per_entry: 6
+
+logging:
+  level: "info"
+
+unsubscribe:
+  enabled: true
+  max_links_per_entry: 8
+  request_timeout_ms: 12000
+  user_agent: "gmail-cleanup-mcp/0.1.0"
+  mailto:
+    enabled: true
+    max_sends_per_entry: 4
+    max_sends_per_run: 100
+    subject_fallback: "unsubscribe"
+    body_fallback: "Please unsubscribe this address from this mailing list."
+    # Skip mailto sends if HTTP unsubscribe already succeeded for the entry.
+    skip_if_http_succeeded: true
+    # Reduce bounces by skipping mailto recipients with unresolvable domains.
+    validate_recipient_domain_dns: true
+  http:
+    allow_http: false
+    one_click_post_body: "List-Unsubscribe=One-Click"

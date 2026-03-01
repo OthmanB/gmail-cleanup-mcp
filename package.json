@@ -1,0 +1,37 @@
+{
+  "name": "gmail-cleanup-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local MCP server for safe Gmail cleanup (preview, unsubscribe, trash)",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "gmail",
+    "cleanup",
+    "unsubscribe"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "auth:bootstrap": "tsx src/auth/bootstrap.ts",
+    "test": "tsx --test tests/**/*.test.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "googleapis": "^144.0.0",
+    "pino": "^9.6.0",
+    "yaml": "^2.8.1",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

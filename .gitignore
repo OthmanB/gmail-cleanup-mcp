@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Secrets
+secrets/
+
+# Local config (contains machine-specific absolute paths)
+config/*.yaml
+config/*.yml
+!config/config.example.yaml
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# Editors
+.idea/
+.vscode/
+*.swp
